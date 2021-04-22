@@ -8,14 +8,13 @@ q = sym.Symbol('Y')
 # sym.sqrt(6*x-8*y)
 # x*y**3 - 2*x**3
 # sym.ln(x*y)
-
-function = 3*x**2 - y*x
+function = (2.71828)**(2*x*y)*(1-3*x*y)
 print('---- CHECK FUNCTION ----')
 sym.pprint(function)
-x0 = 1
-y0 = 2
-X = 1.01
-Y = 1.98
+x0 = 0
+y0 = 1
+X = 0.01
+Y = 0.99
 
 
 x_derivative = sym.diff(function, x)

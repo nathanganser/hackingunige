@@ -9,7 +9,7 @@ q = sym.Symbol('Y')
 # x*y**3 - 2*x**3
 # sym.ln(x*y)
 
-function = x**3 + y**3
+function = x**4+2*x*y**3-3*x**3+7*x*y**2
 print('---- CHECK FUNCTION ----')
 sym.pprint(function)
 
