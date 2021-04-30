@@ -1,14 +1,11 @@
-import pprint
-
 from rdflib import Graph, URIRef, BNode, Literal, Namespace
 from rdflib.namespace import FOAF, RDF
+from SPARQLWrapper import SPARQLWrapper, JSON
 
 g = Graph()
 
-def serialize():
-    print(g.serialize(format="turtle").decode("utf-8"))
 
-def add_data():
+def add_data(g):
     g.bind("foaf", FOAF)
     # create people nodes
     people_url = "http://example.org/people"
@@ -50,7 +47,26 @@ def add_data():
     g.add((pulp_fiction, RDF.type, Movie))
     g.add((forrest_gump, RDF.type, Movie))
 
+    g.add((nathan, FOAF.knows, pulp_fiction))
+    g.add((alice, FOAF.knows, forrest_gump))
+    g.add((josh, FOAF.knows, lord_of_the_ring))
+    g.add((bob, FOAF.knows, twelve_angry_men))
+    g.add((alice, FOAF.knows, dark_knight))
+    g.add((nathan, FOAF.knows, shawshank_redemption))
+    g.add((josh, FOAF.knows, le_parrain))
+
+    for s, p, o in g.triples((nathan, FOAF.knows, None)):
+        if 'https://www.imdb.com/title/' in o:
+            print(f'Nathan has watched the following movie {o}')
+        if 'http://example.org' in o:
+            print(f'Nathan knows {o}')
+            for s, p, o in g.triples((URIRef(o), FOAF.knows, None)):
+                print(f'therefore, Nathan might enjoy the following movie: {o}')
+
+def serialize(g):
+    print(g.serialize(format="turtle").decode("utf-8"))
+    g.serialize("../data/data.ttl", format="turtle")
 
 
-add_data()
-serialize()
+add_data(g)
+

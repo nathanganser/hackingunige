@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+<div class="w3-sand w3-grayscale w3-large">
+
+    <h1 class="w3-center w3-padding-64 w3-tag w3-wide">Movies</h1>
+    <p>You can use this app to browse movies by main actor and director. It's a great way to find new movies made by your favorite directors or starring your favorite actors.</p>
+    {% block content %}
+
+
+    {% for triple in triples %}
+        <a href="#">
+            <h2><a href="{{ "/movie/" +triple['movie']['value'].replace("http://dbpedia.org/resource/", "") }}" target="_blank">{{ triple['movie']['value'].replace("http://dbpedia.org/resource/", "") }}</a></h2>
+        </a>
+        <hr>
+    {% endfor %}
+
+    {% endblock %}
+</body>
+</html>

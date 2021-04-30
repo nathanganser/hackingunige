@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BDA - TP2.4</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+<div class="w3-sand w3-grayscale w3-large">
+
+    <h1>{{ data['title'] }}</h1>
+    <p>{{ data['abstract'] }}</p>
+    <h3>More movies by the producer {{ data['director'] }}</h3>
+
+    {% for movie in data['same_director'] %}
+        <a href="#">
+            <h2><a href="{{ movie }}" target="_blank">{{ movie }}</a></h2>
+        </a>
+        <hr>
+    {% endfor %}
+
+    {% if data['main_actor'] %}
+        <h3>More movies starring {{ data['main_actor'] }}</h3>
+    {% endif %}
+    {% for movie in data['same_main_actor'] %}
+        <a href="#">
+            <h2><a href="{{ movie }}" target="_blank">{{ movie }}</a></h2>
+        </a>
+        <hr>
+    {% endfor %}
+
+
+</body>
+</html>

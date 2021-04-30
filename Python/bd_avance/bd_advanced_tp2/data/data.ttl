@@ -1,0 +1,35 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix movie: <https://www.imdb.com> .
+
+<http://example.org/people/Nathan> a foaf:Person ;
+    foaf:knows <http://example.org/people/Alice>,
+        <http://example.org/people/Josh>,
+        <https://www.imdb.com/title/tt0110912>,
+        <https://www.imdb.com/title/tt0111161> .
+
+<http://example.org/people/Alice> a foaf:Person ;
+    foaf:knows <http://example.org/people/Bob>,
+        <https://www.imdb.com/title/tt0109830>,
+        <https://www.imdb.com/title/tt0468569> .
+
+<http://example.org/people/Bob> a foaf:Person ;
+    foaf:knows <https://www.imdb.com/title/tt0050083> .
+
+<http://example.org/people/Josh> a foaf:Person ;
+    foaf:knows <https://www.imdb.com/title/tt0068646>,
+        <https://www.imdb.com/title/tt0167260> .
+
+<https://www.imdb.com/title/tt0050083> a movie: .
+
+<https://www.imdb.com/title/tt0068646> a movie: .
+
+<https://www.imdb.com/title/tt0109830> a movie: .
+
+<https://www.imdb.com/title/tt0110912> a movie: .
+
+<https://www.imdb.com/title/tt0111161> a movie: .
+
+<https://www.imdb.com/title/tt0167260> a movie: .
+
+<https://www.imdb.com/title/tt0468569> a movie: .
+
