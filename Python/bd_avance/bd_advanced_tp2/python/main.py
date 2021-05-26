@@ -1,12 +1,9 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 from flask import Flask, render_template
-from helper import add_data, serialize
 from rdflib import Graph, URIRef, BNode, Literal, Namespace
 from rdflib.namespace import FOAF, RDF
 
 app = Flask(__name__)
-g = Graph()
-add_data(g)
 
 
 @app.route('/')

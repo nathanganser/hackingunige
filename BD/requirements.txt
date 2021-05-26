@@ -1,0 +1,5 @@
+flask_sqlalchemy
+psycopg2-binary
+flask
+waitress
+mysql-connector-python

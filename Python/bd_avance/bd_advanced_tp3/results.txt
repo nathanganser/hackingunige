@@ -1,0 +1,14 @@
+RESULTS: influence of STEPS on SLEEP.
+Source of data: data_for_seminars/data_input.csv.
+Number of rows used, since file start: 128.
+Binary cutting point for the IDV: 13415.
+Control variables: ['DAY OF STUDY', 'WEEKEND', 'SEASON', 'HOLIDAY', 'DISTANCE', 'AWAKE', 'STEPS AWAKE', 'STRIDE', 'RHR'].
+Initial seed for random method: 1.
+Number of MoTR simulations: 3000.
+Coefficient of IDV influence on DV: -0.03052643420928076.
+Positive Effect of IDV on DV, before MoTR: 4.441209208692329.
+Negative Effect of IDV on DV, before MoTR: 4.463186271976809.
+Positive Effect of IDV on DV, after MoTR: 4.449114594271345.
+Negative Effect of IDV on DV, after MoTR: 4.457761496884217.
+Impact of IDV on DV, before MoTR: -0.021977063284480458.
+Impact of IDV on DV, after MoTR: -0.008646902612872298.

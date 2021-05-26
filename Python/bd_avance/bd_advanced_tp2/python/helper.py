@@ -68,5 +68,3 @@ def serialize(g):
     g.serialize("../data/data.ttl", format="turtle")
 
 
-add_data(g)
-
