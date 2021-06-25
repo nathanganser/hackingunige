@@ -1,5 +1,5 @@
 val = "011010111010100010111"
-
+from utilities import xor
 
 def check(message, interval):
     count = 0
@@ -55,15 +55,6 @@ def get_calculated_sequence(seq, parite=0):
     return res
 
 
-def xor(a, b):
-    res = ""
-    for i in range(0, len(a), +1):
-        if a[i] == b[i]:
-            res += "0"
-        else:
-            res += "1"
-    print(f'resultat xor: {res}')
-    return res
 
 
 def check_if_only_0(message):

@@ -27,6 +27,7 @@ def create_subnet_range(address, mask, subnet_mask):
     print(f'Plage d’adresses IP allouée: {convert_bin_to_ip(address_start)} - {convert_bin_to_ip(address_end)}')
     address_dif = address[0:mask] + create_string("1", 32 - mask)
     print(f'Adresse de diffusion: {convert_bin_to_ip(address_dif)}')
+    return address_start, address_end
 
 
 
@@ -82,6 +83,7 @@ def detect_class(bin_ip):
 
 
 def build_reseau(departments):
+    addresses_used = 0
     # make sure to count the +2 addresses that are required and can't be used for each subnet/sous-reseau
     # make sure to count +1 for the router and don't count switches!
     address_count = 0
@@ -91,6 +93,7 @@ def build_reseau(departments):
     if mask % 2 != 0:
         mask -= 1
     final_mask = mask
+
     print(f'{address_count} addresses needed')
     print(f'final mask is /{final_mask}')
     if address_count > 254:
@@ -132,10 +135,15 @@ def build_reseau(departments):
         address_dif = address[0:given_mask] + create_string("1", 32 - given_mask)
         #print(f'Adresse de diffusion: {convert_bin_to_ip(address_dif)}')
 
-        create_subnet_range(address, given_mask, given_mask)
+        start, end = create_subnet_range(address, given_mask, given_mask)
+        addresses_used += how_many_ips(start, end) + 2
         address = address[0:given_mask - 1] + "1" + address[given_mask:len(address)]
         espace -= 1
         given_mask += 1
+    print(f'Le réseau utilise {addresses_used} adresses')
+    addresses_utilisable = analyse_ip(address, 16)
+    print(f'Il reste {addresses_utilisable} - {addresses_used} = {addresses_utilisable-addresses_used} adresses à attribuer')
+
 
 def convert_ip_to_address_reseau(ip, masque):
     class_identifier, network_id, reseau_id = detect_class(ip)
@@ -147,11 +155,19 @@ def convert_ip_to_address_reseau(ip, masque):
 def analyse_ip(ip, masque):
     address_reseau = convert_ip_to_address_reseau(ip, masque)
     print('-- ANALYSE --')
+    masque_en_ip = convert_bin_to_ip(convert_mask_to_bin(masque))
+    print(f'Masque réseau {masque_en_ip}')
     print(f'Addresse réseau: {convert_bin_to_ip(address_reseau)}')
     print(f'Hôtes possibles: {2**(len(ip)-masque)-2}')
     detect_class(address_reseau)
     create_subnet_range(address_reseau, masque, masque)
+    return 2**(len(ip)-masque)
 
+
+#ipAlice = convert_ip_to_bin("214.71.0.0")
+#analyse_ip(ipAlice, 24)
+#ipBob = convert_ip_to_bin("144.77.0.0")
+#analyse_ip(ipBob, 16)
 
 def same_reseau(ip1, masque1, ip2, masque2):
     if convert_ip_to_address_reseau(ip1, masque1) == convert_ip_to_address_reseau(ip2, masque2):
@@ -163,4 +179,5 @@ def same_reseau(ip1, masque1, ip2, masque2):
 def how_many_ips(ip1, ip2):
     return binarytodecimal(ip2)-binarytodecimal(ip1)+1
 
-build_reseau([1260, 55, 17, 12])
+build_reseau([1047*1.2+4, 42*1.2+4, 10*1.2+4+1, 8+4])
+#analyse_ip(convert_ip_to_bin("144.77.0.0"), 16)

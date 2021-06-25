@@ -16,15 +16,25 @@ def convert_hex_to_bin(string):
 
 
 def calcul_crc(message, crc):
+    zeros_to_add = len(crc)-1
+    for i in range(0, zeros_to_add, +1):
+        message += "0"
     print(f'A: {message}')
     print(f'B: {crc}')
     webbrowser.open(f'http://www.ee.unb.ca/cgi-bin/tervo/calc.pl?num={message}&den={crc}&f=d&e=1&p=1&m=1')
     print('Enter remainder:')
     remainder = input()
-    if len(remainder)<16:
-        for i in range(0, 16-len(remainder), +1):
+    if len(remainder)<zeros_to_add:
+        for i in range(0, zeros_to_add-len(remainder), +1):
             remainder = "0"+remainder
+    print(f'Trame à envoyer pour le CRC: {remainder}')
     return remainder
+
+
+def verify_crc(security_message, crc):
+    #if remainder is 0, then ok
+    webbrowser.open(f'http://www.ee.unb.ca/cgi-bin/tervo/calc.pl?num={security_message}&den={crc}&f=d&e=1&p=1&m=1')
+#verify_crc("1101111110112", "10101")
 
 
 def pading_check(message, padding):
@@ -42,11 +52,7 @@ def pading_check(message, padding):
             return message
 
 
-fanion = "01111110"
-champ_adresse_commande = "11111111" + "00000011"
-protocole_ip = convert_hex_to_bin("0021")
-donnes = "0110100110010101"
-crc = "1000100000010001"
+
 
 
 def create_message(fanion, message, crc):
@@ -58,4 +64,9 @@ def create_message(fanion, message, crc):
     print(message)
     return message
 
-create_message(fanion, champ_adresse_commande+protocole_ip+donnes, crc)
+fanion = ""
+champ_adresse_commande = ""
+protocole_ip = "" #convert_hex_to_bin("0021")
+donnes = "11110100"
+crc = "10101"
+#create_message(fanion, champ_adresse_commande+protocole_ip+donnes, crc)
