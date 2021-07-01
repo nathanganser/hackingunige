@@ -1,3 +1,5 @@
+import binascii
+
 def convert_ko_to_bits(ko_value):
     # kilo octets are kilo bytes
     return ko_value*8000
@@ -12,7 +14,7 @@ def xor(a, b):
             res += "0"
         else:
             res += "1"
-    #print(f'resultat xor: {res}')
+    print(f'resultat xor: {res}')
     return res
 
 def bits_to_Mo(bits):
@@ -56,3 +58,21 @@ def ASCII_to_binary(message):
         mes = "0"+mes
     return mes
 
+def convert_hex_to_bin(string):
+    ini_string = string
+
+    # Printing initial string
+    print("Initial string", ini_string)
+
+    # Code to convert hex to binary
+    res = "{0:08b}".format(int(ini_string, 16))
+
+    # Print the resultant string
+    print("Resultant string", str(res))
+    return str(res)
+
+def bin_to_hex(message):
+    message = hex(int(message, 2))
+    return message
+
+#print(bin_to_hex("1101"))

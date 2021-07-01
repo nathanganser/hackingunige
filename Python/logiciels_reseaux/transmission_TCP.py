@@ -1,6 +1,6 @@
 from utilities import convert_pixel_to_bits, convert_bits_to_octets, Go_to_bits, bits_to_Mo, Mo_to_bits
 from data_streaming import calculate_debit
-
+print('----')
 def combien_de_segments(segments, W, ACK=0):
     # combien_de_segments([0, 256, 512, 1024, 1536, 2048, 3072,4096, 5012], 2048, ACK=2048)
     # dessin -> https://projects.invisionapp.com/freehand/document/zct6TT7KY
@@ -36,7 +36,7 @@ def find_temporisateur(one_direction_travel_time, beta):
     print(f'La valeur du temporisateur est {one_direction_travel_time} x 2 x {beta} = {temp} ms')
     return temp
 
-find_temporisateur(170, 3)
+#find_temporisateur(100, 3.5)
 
 def taille_buffer_emetteur(one_direction_travel_time, debit_max, taille_segment=65535):
     # debit max en octet, travel_time in SECONDS
@@ -47,7 +47,7 @@ def taille_buffer_emetteur(one_direction_travel_time, debit_max, taille_segment=
 
     return convert_bits_to_octets(BDP)
 
-taille_buffer_emetteur(170/1000,4*(2**20))
+taille_buffer_emetteur(100,4)
 
 def taille_buffer_recepteur(debit_reel_en_bits, taille_fichier):
     #, taille_fichier en bits
@@ -70,5 +70,5 @@ def taille_buffer_recepteur(debit_reel_en_bits, taille_fichier):
     print(f"Donc au moment de commencer le stream, il faut déjà avoir téléchargé {duree_du_stream}[s] x {difference_debit}[bits] = {bits_to_Mo(a_pretelecharger)} Mo")
     print(f"La taille du buffer doit donc être au moins {bits_to_Mo(a_pretelecharger)} Mo")
 
-taille_buffer_recepteur(4*(2**20)*8, Go_to_bits(4))
+#taille_buffer_recepteur(4*(2**20)*8, Go_to_bits(4))
 print('--')

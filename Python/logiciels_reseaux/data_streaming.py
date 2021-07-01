@@ -5,11 +5,11 @@ from utilities import *
 information = {
     # in Mo/s
     #"son": bits_to_Mo(4*(10**7)),
-    #"images": 50*bits_to_Mo(4*(10**6)),
+    #"#images": 50*bits_to_Mo(4*(10**6)),
     #"son du microphone": 10, # Mo
-    "son du jeu": 7, # Mo
+    #"son du jeu": 7, # Mo
     #"vidéo de la camera": bits_to_Mo(convert_pixel_to_bits(200000, 20, 3*8)),
-    #"vidéo de l'écran": bits_to_Mo(convert_pixel_to_bits(1080*720, 60, 3*8))
+    "vidéo de l'écran": bits_to_Mo(convert_pixel_to_bits(720*480, 24, 3*8))
 
 }
 def calculate_debit(information):
@@ -20,7 +20,7 @@ def calculate_debit(information):
     print(f"Donc au total, il faut un débit de {Mo_total} Mo/s")
     return Mo_total
 
-#calculate_debit(information)
+calculate_debit(information)
 
 
 def time_to_download(debit_internet, durée_video):
@@ -36,4 +36,4 @@ def time_to_download(debit_internet, durée_video):
     print(f"Le temps nécesaire pour télécharger cette différence s'élève à {time_to_download_difference} minutes.")
 
 print('--')
-#time_to_download(100,  100*60)
+time_to_download(25,  102*60)

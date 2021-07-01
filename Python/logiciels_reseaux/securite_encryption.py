@@ -33,6 +33,7 @@ def cesar_encryption(shift, text):
 
     print(f"Donc {text} devient {encryption}")
 
+#cesar_encryption(7, "SECURITE")
 
 def cesar_decryption(shift, encrypted_text):
     plain_text = ""
@@ -68,6 +69,7 @@ def cesar_decryption(shift, encrypted_text):
 
     print(f"Donc {encrypted_text} devient {plain_text}")
 
+#cesar_decryption(3, "ORJLFLHO")
 
 def VigenereGenerateKey(string, key):
     key = list(key)
@@ -93,6 +95,7 @@ def VigenereEncryption(string, key):
     print(("".join(encrypt_text)))
     return ("".join(encrypt_text))
 
+#VigenereEncryption("CRYPTOGRAPHIE", "CLE")
 
 def VigenereDecryption(encrypt_text, key):
     # EN MAJUSCULE
@@ -108,15 +111,18 @@ def VigenereDecryption(encrypt_text, key):
     return ("".join(orig_text))
 
 
-#VigenereEncryption("CRYPTOGRAPHIE", "CLE")
-# VigenereDecryption("qwumoeybu", "blue")
+#VigenereDecryption("qwumoeybu", "blue")
 
 # Clés
-e = 39  # public key  (e; n) = (37; 77)
-d = 21  # private key  (d; n) = (13; 77)
-n = 77
+p1_e = 37  # public key  (e; n) = (37; 77)
+p1_d = 13  # private key  (d; n) = (13; 77)
+p1_n = 77
 
-message = 7
+p2_e = 39  # public key  (e; n) = (37; 77)
+p2_d = 23  # private key  (d; n) = (13; 77)
+p2_n = 85
+
+message = 27
 
 
 def chiffrer_bloc(n, e, message):
@@ -124,15 +130,18 @@ def chiffrer_bloc(n, e, message):
     print(f"{message}^{e} (mod {n}) = {C}")
     return C
 
+#mes = chiffrer_bloc(p2_n, p2_e, message)
 
 def dechiffrer_bloc(n, d, C):
     message = (C ** d) % n
     print(f"{C}^d (mod n) = {message}")
     return message
 
+#dechiffrer_bloc(p1_n, p1_d, 3)
+
 
 def h(x):
-    hash = (3*x+2) % 10
+    hash = (25*x+2) % 40
     print(f'On trouve {hash} après avoir appliqué la function de hashage sur {x}')
     return hash
 
@@ -142,6 +151,8 @@ def sign(d, n, message):
     print(f"Le message signé est: h({message})^{d} (mod {n}) = {signature}")
     return signature
 
+#si = sign(p1_d, p1_n, 13)
+
 
 def verify_signature(signature, e, n, message):
     proof = (signature ** e) % n
@@ -149,11 +160,9 @@ def verify_signature(signature, e, n, message):
     print(f'On confirme que {proof} == {h(message)}')
     return proof == h(message)
 
+print(verify_signature(16, p2_e, p2_n, 26))
 
-secret = chiffrer_bloc(n, e, 7)
-#mes = dechiffrer_bloc(n, d, secret)
-#print(secret)
-#verify_signature(38, 37, 77, 7)
+
 
 def create_clé(p,q):
     print(f'On choisi deux nombres premiers, {p} et {q}.')

@@ -11,14 +11,14 @@ def calcul_capacite_transmission(largeur_de_bande, niveaux_amplitude=1, niveau_d
     Cbps = Cbaud * N
     print(f'Cbps = {Cbaud} x {N} = {Cbps}[bps]')
 
-calcul_capacite_transmission(2, 2,2,2)
+calcul_capacite_transmission(20*1000, 1,1,4)
 
 def calcul_capacite_max_bruit(rapport_signal_bruit, largeur_de_bande):
     Cmaxbps = largeur_de_bande* math.log2(rapport_signal_bruit+1)
     print(f'Cmaxbps = {largeur_de_bande} x log2({rapport_signal_bruit} + 1) = {Cmaxbps}[bps]')
     # si la Cmaxbps est basse, on ne peut pas avoir beaucoup de niveaux de modulations
 
-#calcul_capacite_max_bruit(27, 5000)
+#calcul_capacite_max_bruit(67, 40*1000)
 
 def multiplexage_frequentiel(bande_passante, allocation_bande_passante_par_utilisateur, bits_a_transmettre, multiplication_des_niveaux):
     # bande passante en Hz
@@ -34,7 +34,7 @@ def multiplexage_frequentiel(bande_passante, allocation_bande_passante_par_utili
     print(f't = {bits_a_transmettre} / {Cbps} = {t}[s]')
     print(f'Un utilisateur à besoin de {t * 1000}[ms] pour envoyer {bits_a_transmettre} bits.')
 
-#multiplexage_frequentiel(20000, 2000, 240, 16)
+#multiplexage_frequentiel(20*1000, 2000, 493, 4)
 
 def multiplexage_temporel(bande_passante, interval, bits_par_passage, multiplication_des_niveaux, bits_a_envoyer):
     # bande passante en Hz
@@ -56,7 +56,7 @@ def multiplexage_temporel(bande_passante, interval, bits_par_passage, multiplica
     print(f'Capacité Users Max = {interval} / {t_en_ms} = {utilisateurs_max} + 1 = {utilisateurs_max+1}')
 
 
-# multiplexage_temporel(20000, 4, 8, 16, 165)
+multiplexage_temporel(20*1000, 4, 8, 4, 151)
 
 def debit_effectif(largeur_de_bande, taille_de_blocs, overhead, niveaux):
     # largeur_de_bande en Hz
@@ -71,6 +71,6 @@ def debit_effectif(largeur_de_bande, taille_de_blocs, overhead, niveaux):
     print(f'Débit effectif = {Cbps} x {taille_de_blocs-overhead}/{taille_de_blocs} = {debit_effect}[bps]')
 
 print("---")
-debit_effectif(2, 29, 4, 8)
+#debit_effectif(4000, 16, 3, 8)
 
 

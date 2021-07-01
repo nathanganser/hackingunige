@@ -3,9 +3,11 @@ import math
 
 # la première et dernière adresse d'un réseau est réservée (première pour définir le réseau, dernière pour broadcast
 
-
 def decimaltobinary(num):
     return bin(num).replace("0b", "")
+
+def how_many_ips(ip1, ip2):
+    return binarytodecimal(ip2)-binarytodecimal(ip1)+1
 
 
 def binarytodecimal(binary):
@@ -41,6 +43,8 @@ def convert_ip_to_bin(ip):
         res += val
     return res
 
+
+
 def convert_bin_to_ip(bin_ip):
     res = ""
     for octet in range(0, len(bin_ip), +8):
@@ -65,7 +69,7 @@ def detect_class(bin_ip):
         class_identifier = bin_ip[0:1]
         network_id = bin_ip[1:8]
         host_id = bin_ip[8:32]
-    if bin_ip[0:2] == "10":
+    if True:
         print('Class B')
         #print("En tout il y a 16,384 network IDs attribuables avec un total de 65,534 host IDs disponibles pour chacun")
         class_identifier = bin_ip[0:2]
@@ -81,6 +85,40 @@ def detect_class(bin_ip):
     print(f' host_id: {host_id}')
     return class_identifier, network_id, host_id
 
+def convert_ip_to_address_reseau(ip, masque):
+    class_identifier, network_id, reseau_id = detect_class(ip)
+    ip = class_identifier + network_id + reseau_id
+    ip_fix = ip[0:masque]
+    ip_to_change = ip[masque:len(ip)]
+    return ip_fix + ip_to_change.replace('1','0')
+
+
+
+def same_reseau(ip1, masque1, ip2, masque2):
+    if convert_ip_to_address_reseau(ip1, masque1)[0:masque1] == convert_ip_to_address_reseau(ip2, masque2)[0:masque2]:
+        print(f'{convert_bin_to_ip(ip1)} et {convert_bin_to_ip(ip2)} sont dans le même réseau car ils ont la même adresse réseau ({convert_ip_to_address_reseau(ip1, masque1)[0:masque1]})')
+        return True
+    else:
+        print(f'{convert_bin_to_ip(ip1)} et {convert_bin_to_ip(ip2)} ne sont dans le même réseau car ils n ont pas la même adresse réseau ({convert_ip_to_address_reseau(ip1, masque1)[0:masque1]} et {convert_ip_to_address_reseau(ip2, masque2)[0:masque2]})')
+        return False
+
+def analyse_ip(ip, masque):
+    address_reseau = convert_ip_to_address_reseau(ip, masque)
+    print('-- ANALYSE --')
+    masque_en_ip = convert_bin_to_ip(convert_mask_to_bin(masque))
+    print(f'Masque réseau {masque_en_ip}')
+    print(f'Addresse réseau: {convert_bin_to_ip(address_reseau)}')
+    print(f'Hôtes possibles: 2^({len(ip)}-{masque}) - 2 = {2**(len(ip)-masque)-2}')
+    detect_class(address_reseau)
+    create_subnet_range(address_reseau, masque, masque)
+    return 2**(len(ip)-masque)
+
+
+ipAlice = convert_ip_to_bin("192.168.64.254")
+#analyse_ip(ipAlice, 24)
+ipBob = convert_ip_to_bin("139.42.191.245")
+#analyse_ip(ipBob, 26)
+#same_reseau(ipAlice, 20, ipBob, 20)
 
 def build_reseau(departments):
     addresses_used = 0
@@ -108,8 +146,10 @@ def build_reseau(departments):
         addressEx = "194.194.141.0"
     print(f'the address needs to be an {addressclass} address like {addressEx}')
     print('What is the address?')
-    string_address = "172.10.0.0" #input()
-    address = convert_ip_to_bin(string_address)
+    string_address = "231.113.64.0" #input()
+    #address = convert_ip_to_bin(string_address)
+    address = "11100111011100010100000000000000"
+    print(address)
     print('-----')
     detect_class(address) # convert_ip_to_bin(input())
     print('-----')
@@ -141,43 +181,14 @@ def build_reseau(departments):
         espace -= 1
         given_mask += 1
     print(f'Le réseau utilise {addresses_used} adresses')
-    addresses_utilisable = analyse_ip(address, 16)
+    addresses_utilisable = analyse_ip(address, 18)
     print(f'Il reste {addresses_utilisable} - {addresses_used} = {addresses_utilisable-addresses_used} adresses à attribuer')
 
-
-def convert_ip_to_address_reseau(ip, masque):
-    class_identifier, network_id, reseau_id = detect_class(ip)
-    ip = class_identifier + network_id + reseau_id
-    ip_fix = ip[0:masque]
-    ip_to_change = ip[masque:len(ip)]
-    return ip_fix + ip_to_change.replace('1','0')
-
-def analyse_ip(ip, masque):
-    address_reseau = convert_ip_to_address_reseau(ip, masque)
-    print('-- ANALYSE --')
-    masque_en_ip = convert_bin_to_ip(convert_mask_to_bin(masque))
-    print(f'Masque réseau {masque_en_ip}')
-    print(f'Addresse réseau: {convert_bin_to_ip(address_reseau)}')
-    print(f'Hôtes possibles: {2**(len(ip)-masque)-2}')
-    detect_class(address_reseau)
-    create_subnet_range(address_reseau, masque, masque)
-    return 2**(len(ip)-masque)
+build_reseau([4121+2+1, 128+2+1, 46+2+1])
 
 
-#ipAlice = convert_ip_to_bin("214.71.0.0")
-#analyse_ip(ipAlice, 24)
-#ipBob = convert_ip_to_bin("144.77.0.0")
-#analyse_ip(ipBob, 16)
 
-def same_reseau(ip1, masque1, ip2, masque2):
-    if convert_ip_to_address_reseau(ip1, masque1) == convert_ip_to_address_reseau(ip2, masque2):
-        print(f'{convert_bin_to_ip(ip1)} et {convert_bin_to_ip(ip2)} sont dans le même réseau')
-        return True
-    else:
-        return False
 
-def how_many_ips(ip1, ip2):
-    return binarytodecimal(ip2)-binarytodecimal(ip1)+1
 
-build_reseau([1047*1.2+4, 42*1.2+4, 10*1.2+4+1, 8+4])
+
 #analyse_ip(convert_ip_to_bin("144.77.0.0"), 16)
